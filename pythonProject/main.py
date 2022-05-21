@@ -1,3 +1,4 @@
+from fileinput import filename
 from tkinter import *
 import tkinter as tk
 import pickle
@@ -16,18 +17,18 @@ algorithmChoiceLabel = Label(
 algorithmChoiceLabel.place(x=5, y=10)
 
 Mmsc = pickle.load(
-    open('D:/Project/AI/ServiceCancelation/pythonProject/MinMaxScale.sav', 'rb'))
+    open('D:/Project/AI/ServiceCancelation/ServiceCancelation/pythonProject/MinMaxScale.sav', 'rb'))
 
 
 ##########   Check Boxes    ###########
 logisticRegressionChoice = IntVar()
 
-loaded_model = pickle.load(open(
-    'D:/Project/AI/ServiceCancelation/pythonProject/Logestic Regression.sav', 'rb'))
+filename = 'D:/Project/AI/ServiceCancelation/ServiceCancelation/pythonProject/Logistic Regression.sav'
+loaded_model = pickle.load(open(filename, 'rb'))
 
 
 def Logistic_regression():
-    filename = 'D:/Project/AI/ServiceCancelation/pythonProject/Logestic Regression.sav'
+    filename = 'D:/Project/AI/ServiceCancelation/ServiceCancelation/pythonProject/Logistic Regression.sav'
     loaded_model = pickle.load(open(filename, 'rb'))
     print(loaded_model)
 
@@ -37,7 +38,7 @@ Checkbutton(root, text="Logistic Regression", variable=logisticRegressionChoice,
 
 
 def SVM():
-    filename = 'D:/Project/AI/ServiceCancelation/pythonProject/SVM.sav'
+    filename = 'D:/Project/AI/ServiceCancelation/ServiceCancelation/pythonProject/SVM.sav'
     loaded_model = pickle.load(open(filename, 'rb'))
     print(loaded_model)
 
@@ -48,7 +49,7 @@ Checkbutton(root, text="SVM", variable=svmChoice,
 
 
 def ID3():
-    filename = 'D:/Project/AI/ServiceCancelation/pythonProject/Decision Tree.sav'
+    filename = 'D:/Project/AI/ServiceCancelation/ServiceCancelation/pythonProject/Decision Tree.sav'
     loaded_model = pickle.load(open(filename, 'rb'))
     print(loaded_model)
 
@@ -58,13 +59,6 @@ Checkbutton(root, text="ID3", variable=id3Choice,
             command=ID3).place(x=500, y=45)
 
 ##########   Check Boxes    ###########
-
-##########   Buttons    ###########
-trainButton = Button(root, text='Train', width=20,
-                     bg="black", fg='white').place(x=20, y=80)
-testButton = Button(root, text='Test', width=20,
-                    bg="black", fg='white').place(x=200, y=80)
-##########   Buttons    ###########
 
 
 customerLabel = Label(root, text="Customer Data", width=20,
@@ -163,7 +157,7 @@ streamingTvEntry.place(x=430, y=270)
 
 
 streamingMoviesLabel = Label(
-    root, text="Device Protection", width=20, font=("bold", 10))
+    root, text="Streaming Movies", width=20, font=("bold", 10))
 streamingMoviesLabel.place(x=570, y=270)
 streamingMoviesEntry = Entry(root)
 streamingMoviesEntry.place(x=720, y=270)
@@ -205,8 +199,13 @@ totalChargesEntry.place(x=430, y=330)
 
 
 def predict():
+    if (float(totalChargesEntry.get()) >= float(monthlyChargesEntry.get())*float(tenureEntry.get())):
+        pot = 1
+    else:
+        pot = 0
+
     rowinput = [float(seniorCitzenEntry.get()), float(tenureEntry.get()), float(monthlyChargesEntry.get()), float(genderEntry.get()), float(totalChargesEntry.get()), float(partenerEntry.get()), float(dependentEntry.get()), float(phoneServiceEntry.get()), float(multipleLinesEntry.get()), float(internetServiceEntry.get(
-    )), float(onlineSecurityEntry.get()), float(onlineBackupEntry.get()), float(deviceProtectionEntry.get()), float(techSupportEntry.get()), float(streamingTvEntry.get()), float(streamingMoviesEntry.get()), float(contractsEntry.get()), float(paperlessBillingEntry.get()), float(paymentMethodEntry.get())]
+    )), float(onlineSecurityEntry.get()), float(onlineBackupEntry.get()), float(deviceProtectionEntry.get()), float(techSupportEntry.get()), float(streamingTvEntry.get()), float(streamingMoviesEntry.get()), float(contractsEntry.get()), float(paperlessBillingEntry.get()), float(paymentMethodEntry.get()), pot]
     del rowinput[3]
     del rowinput[7]
     pred = loaded_model.predict([rowinput])
